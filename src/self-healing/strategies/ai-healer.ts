@@ -91,7 +91,8 @@ export class AIHealerStrategy implements HealingStrategy {
         model: selfHealingConfig.aiModel,
         timestamp: Date.now(),
       };
-    } catch {
+    } catch (err) {
+      console.error('[ai-healer] API error:', (err as Error).message?.slice(0, 400));
       return null;
     }
   }
