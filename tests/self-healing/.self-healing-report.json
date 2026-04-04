@@ -1,0 +1,46 @@
+{
+  "runTimestamp": 1775323720772,
+  "totalAttempts": 5,
+  "healed": 5,
+  "failed": 0,
+  "fromCache": 5,
+  "details": [
+    {
+      "originalSelector": "//*[contains(@class=\"github_LINK_for_test\")]",
+      "healedSelector": "role=link[name=/get started/i]",
+      "strategy": "cache",
+      "confidence": 0.92,
+      "timestamp": 1775323723578
+    },
+    {
+      "originalSelector": "#nonexistent-get-started-button",
+      "healedSelector": "text=get started",
+      "strategy": "cache",
+      "confidence": 0.88,
+      "timestamp": 1775323724313
+    },
+    {
+      "originalSelector": "role=link[name=\"Get_started_3124\"]",
+      "healedSelector": "text=GET STARTED",
+      "strategy": "cache",
+      "confidence": 0.6666666666666666,
+      "timestamp": 1775323728402
+    },
+    {
+      "originalSelector": "[data-testid=\"homepage-hero-cta\"]",
+      "healedSelector": "role=link[name=/get started/i]",
+      "strategy": "cache",
+      "confidence": 0.92,
+      "timestamp": 1775323728406
+    },
+    {
+      "originalSelector": "role=heading[name=\"Installation_test\"]",
+      "healedSelector": "role=link[name=\"Installation\"]",
+      "strategy": "cache",
+      "confidence": 0.88,
+      "timestamp": 1775323733509
+    }
+  ],
+  "failures": [],
+  "suggestedCodeFixes": []
+}
