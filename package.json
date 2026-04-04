@@ -1,0 +1,17 @@
+{
+  "name": "self-healing-agent",
+  "dependencies": {
+    "playwright": "^1.59.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.5.2",
+    "dotenv": "^16.6.1",
+    "openai": "^4.104.0"
+  },
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:heal-report": "node -e \"const fs=require('fs');const p='.self-healing-report.json';if(fs.existsSync(p)){console.log(fs.readFileSync(p,'utf8'));}else{console.log('No healing report found.');}\""
+  }
+}
