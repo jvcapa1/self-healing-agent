@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import * as fs from 'fs';
+import path from 'path';
 
 import { selfHealingConfig } from './config';
 import type { HealingReport, HealingResult, SelectorRecord } from './types';
