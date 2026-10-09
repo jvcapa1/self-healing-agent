@@ -111,7 +111,7 @@ It wraps the Playwright `Page` object in two ways:
 ## File Structure
 
 ```
-src/self-healing/
+self-healing/
 ├── fixture.ts             ← Playwright fixture + expect wrapper (entry point for tests)
 ├── healer.ts              ← Orchestrates all strategies in order
 ├── config.ts              ← Reads env vars (GITHUB_TOKEN, AI_MODEL, thresholds…)
@@ -124,7 +124,8 @@ src/self-healing/
 │   ├── fuzzy-match.ts          ← Layer 2: token overlap scoring
 │   └── ai-healer.ts            ← Layer 3: GitHub Models AI
 └── providers/
-    ├── github-models.ts        ← OpenAI SDK → models.inference.ai.azure.com
+    ├── openai.ts               ← OpenAI-compatible provider for GitHub Models/OpenAI
+    ├── gemini.ts               ← Gemini provider
     └── provider-factory.ts     ← Returns the configured provider instance
 
 tests/

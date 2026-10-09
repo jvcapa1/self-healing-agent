@@ -1,4 +1,4 @@
-import { test, expect } from '../src/self-healing/fixture';
+import { test, expect } from '../self-healing/fixture';
 
 /**
  * This test uses a completely fabricated CSS selector whose words

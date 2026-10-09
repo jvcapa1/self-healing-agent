@@ -1,4 +1,4 @@
-import { test, expect } from '../src/self-healing/fixture';
+import { test, expect } from '../self-healing/fixture';
 
 test('has title', async ({ selfHealingPage: page }) => {
   await page.goto('https://playwright.dev/');
