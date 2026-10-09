@@ -20,7 +20,7 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
       env:
-        GEMINI_API_KEY: ${{ secrets.SELF_HEALING_GITHUB_TOKEN }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         AI_PROVIDER: gemini
         AI_MODEL: gemini-3.5-flash-lite
         MAX_AI_HEALS_PER_RUN: 5
