@@ -18,11 +18,15 @@ function readNumber(value: string | undefined, fallback: number): number {
 }
 
 export function getSelfHealingConfig(): SelfHealingConfig {
+  const aiProvider = process.env.AI_PROVIDER ?? (process.env.OPENAI_API_KEY ? 'openai' : 'github-models');
+
   return {
     enabled: readBoolean(process.env.SELF_HEALING_ENABLED, true),
-    aiProvider: process.env.AI_PROVIDER ?? 'github-models',
-    aiModel: process.env.AI_MODEL ?? 'gpt-4o-mini',
+    aiProvider,
+    aiModel: process.env.AI_MODEL ?? (aiProvider === 'gemini' ? 'gemini-3.5-flash-lite' : 'gpt-4o-mini'),
     githubToken: process.env.GITHUB_TOKEN ?? '',
+    openAIToken: process.env.OPENAI_API_KEY ?? '',
+    geminiToken: process.env.GEMINI_API_KEY ?? '',
     maxAIHealsPerRun: readNumber(process.env.MAX_AI_HEALS_PER_RUN, 5),
     cacheFilePath: path.resolve(process.cwd(), 'tests', 'self-healing', '.self-healing-cache.json'),
     reportFilePath: path.resolve(process.cwd(), 'tests', 'self-healing', '.self-healing-report.json'),

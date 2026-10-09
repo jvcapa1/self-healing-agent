@@ -33,5 +33,5 @@ test('AI healer: resolves a fabricated selector to the main CTA', async ({
 });
 test('Test Github' , async ({ selfHealingPage: page }) => {
   await page.goto('https://playwright.dev/');
-  await expect(page.locator('//*[contains(@class="github_LINK_for_test")]')).toBeVisible();
+  await expect(page.locator('//*[contains(@class, "github_LINK_for_test")]')).toBeVisible();
 });

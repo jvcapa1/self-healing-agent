@@ -13,7 +13,20 @@ export class Healer {
   private readonly strategies: HealingStrategy[];
 
   constructor() {
-    const provider = selfHealingConfig.githubToken ? createAIProvider() : null;
+    const hasProviderToken = selfHealingConfig.aiProvider === 'openai'
+      ? selfHealingConfig.openAIToken
+      : selfHealingConfig.aiProvider === 'gemini'
+        ? selfHealingConfig.geminiToken
+        : selfHealingConfig.githubToken;
+    if (!hasProviderToken) {
+      const keyName = selfHealingConfig.aiProvider === 'gemini'
+        ? 'GEMINI_API_KEY'
+        : selfHealingConfig.aiProvider === 'openai'
+          ? 'OPENAI_API_KEY'
+          : 'GITHUB_TOKEN';
+      console.warn(`[self-healing] ${selfHealingConfig.aiProvider} is disabled because ${keyName} is not set.`);
+    }
+    const provider = hasProviderToken ? createAIProvider() : null;
     this.strategies = [
       new AttributeFallbackStrategy(),
       new FuzzyMatchStrategy(),

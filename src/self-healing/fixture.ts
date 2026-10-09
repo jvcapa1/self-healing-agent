@@ -92,6 +92,9 @@ function isRecoverableSelectorError(error: unknown): boolean {
     || message.includes('strict mode violation')
     || message.includes('resolved to 0 elements')
     || message.includes('no element matches')
+    || message.includes('not a valid xpath expression')
+    || message.includes('not a valid css selector')
+    || message.includes('invalid selector')
   );
 }
 

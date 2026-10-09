@@ -30,7 +30,7 @@ export class AIHealerStrategy implements HealingStrategy {
       return null;
     }
 
-    if (!selfHealingConfig.githubToken || !this.provider) {
+    if (!this.provider) {
       return null;
     }
 
@@ -92,7 +92,9 @@ export class AIHealerStrategy implements HealingStrategy {
         timestamp: Date.now(),
       };
     } catch (err) {
-      console.error('[ai-healer] API error:', (err as Error).message?.slice(0, 400));
+      const error = err as Error & { cause?: unknown };
+      const cause = error.cause instanceof Error ? ` (${error.cause.message})` : '';
+      console.error(`[ai-healer] ${this.provider.name} API error:`, `${error.message?.slice(0, 400) ?? String(err)}${cause}`);
       return null;
     }
   }

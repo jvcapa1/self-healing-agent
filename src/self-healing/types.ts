@@ -77,6 +77,8 @@ export interface SelfHealingConfig {
   aiProvider: string;
   aiModel: string;
   githubToken: string;
+  openAIToken: string;
+  geminiToken: string;
   maxAIHealsPerRun: number;
   cacheFilePath: string;
   reportFilePath: string;

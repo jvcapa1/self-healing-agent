@@ -2,15 +2,17 @@ import OpenAI from 'openai';
 
 import type { AIOptions, AIProvider, SelfHealingConfig } from '../types';
 
-export class GitHubModelsProvider implements AIProvider {
-  name = 'github-models';
+export class OpenAIProvider implements AIProvider {
+  name = 'openai';
   private client: OpenAI;
   private defaultModel: string;
 
   constructor(config: SelfHealingConfig) {
+    const isGitHubModels = config.aiProvider === 'github-models' || (!config.openAIToken && !!config.githubToken);
+
     this.client = new OpenAI({
-      baseURL: 'https://models.inference.ai.azure.com',
-      apiKey: config.githubToken,
+      apiKey: config.openAIToken || config.githubToken,
+      ...(isGitHubModels ? { baseURL: 'https://models.inference.ai.azure.com' } : {}),
     });
     this.defaultModel = config.aiModel;
   }
@@ -28,7 +30,6 @@ export class GitHubModelsProvider implements AIProvider {
     };
 
     if (isReasoningModel) {
-      // Reasoning models use max_completion_tokens and don't support temperature
       params.max_completion_tokens = options?.maxTokens ?? 2000;
     } else {
       params.max_tokens = options?.maxTokens ?? 200;

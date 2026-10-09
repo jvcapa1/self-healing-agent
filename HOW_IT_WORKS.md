@@ -144,8 +144,10 @@ tests/self-healing/             ← Generated at runtime (git-ignored)
 | Variable | Default | Description |
 |---|---|---|
 | `GITHUB_TOKEN` | — | **Required.** Personal access token for GitHub Models API |
-| `AI_MODEL` | `gpt-4o-mini` | Model name on GitHub Models (e.g. `gpt-4o`, `gpt-4.1`) |
-| `AI_PROVIDER` | `github-models` | Provider (currently only `github-models` supported) |
+| `GEMINI_API_KEY` | — | API key for Gemini (when `AI_PROVIDER=gemini`) |
+| `OPENAI_API_KEY` | — | API key for OpenAI (when `AI_PROVIDER=openai`) |
+| `AI_MODEL` | `gpt-4o-mini` (`gemini-3.5-flash-lite` for Gemini) | Model name for the selected provider |
+| `AI_PROVIDER` | `github-models` | Provider: `github-models`, `openai`, or `gemini` |
 | `MAX_AI_HEALS_PER_RUN` | `5` | Safety cap on AI calls per test run |
 | `SELF_HEALING_ENABLED` | `true` | Master switch |
 | `SELF_HEALING_ENABLE_IN_CI` | `false` | Allow healing on CI (disabled by default) |
