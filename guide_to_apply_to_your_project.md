@@ -33,8 +33,8 @@ npm install
 Create a `.env` file from the project pattern:
 
 ```env
-AI_PROVIDER=github-models
-AI_MODEL=gpt-4o-mini
+AI_PROVIDER=gemini
+AI_MODEL=gemini-3.5-flash-lite
 GITHUB_TOKEN=your_token_here
 MAX_AI_HEALS_PER_RUN=5
 SELF_HEALING_ENABLED=true
@@ -98,23 +98,31 @@ my-project/
     example.spec.ts
 ```
 
-### Step 2: Add the config file values
+### Step 2: Install the dependencies
+
+From your project root, install the packages used by the self-healing code:
+
+```bash
+npm install @playwright/test playwright dotenv @google/genai openai
+```
+
+### Step 3: Add the config file values
 
 Add these values to your `.env`:
 
 ```env
-AI_PROVIDER=github-models
-AI_MODEL=gpt-4o-mini
-GITHUB_TOKEN=your_token_here
-MAX_AI_HEALS_PER_RUN=5
+AI_PROVIDER=gemini
+AI_MODEL=gemini-3.5-flash-lite
+MAX_AI_HEALS_PER_RUN=1
 SELF_HEALING_ENABLED=true
 SELF_HEALING_ENABLE_IN_CI=false
 SELF_HEALING_TIMEOUT_MS=15000
 FUZZY_MATCH_THRESHOLD=0.45
 DOM_MAX_LENGTH=4000
+# GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-### Step 3: Update the reporter in Playwright config
+### Step 4: Update the reporter in Playwright config
 
 In `playwright.config.ts`:
 
@@ -124,15 +132,18 @@ reporter: [
   ['./self-healing/reporter.ts'],
   ['list'],
 ],
+use: {
+  actionTimeout: 5000,
+},
 ```
 
-### Step 4: Import the healing fixture in your test
+### Step 5: Import the healing fixture in your test
 
 ```ts
 import { test, expect } from '../self-healing/fixture';
 ```
 
-### Step 5: Add one sample broken selector test
+### Step 6: Add one sample broken selector test
 
 ```ts
 import { test, expect } from '../self-healing/fixture';
@@ -144,7 +155,7 @@ test('broken selector heals automatically', async ({ selfHealingPage: page }) =>
 });
 ```
 
-### Step 6: Run the tests
+### Step 7: Run the tests
 
 ```bash
 npx playwright test --reporter=list
