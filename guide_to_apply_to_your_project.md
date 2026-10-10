@@ -127,6 +127,7 @@ DOM_MAX_LENGTH=4000
 In `playwright.config.ts`:
 
 ```ts
+timeout: 60000,
 reporter: [
   ['html', { open: 'never' }],
   ['./self-healing/reporter.ts'],
@@ -136,6 +137,8 @@ use: {
   actionTimeout: 5000,
 },
 ```
+
+Keep `actionTimeout` shorter than the overall test `timeout` so a failed locator can trigger self-healing before the test runs out of time.
 
 ### Step 5: Import the healing fixture in your test
 

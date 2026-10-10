@@ -36,6 +36,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // Let failed locator actions trigger healing well before the test timeout.
     actionTimeout: 5000,
     headless: !!process.env.CI,
     browserName: 'chromium',
