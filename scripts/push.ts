@@ -18,7 +18,7 @@ async function main() {
     return;
   }
 
-  await git.commit("chore: apply self-healing updates [skip ci]");
+  await git.commit(`[${new Date().toISOString()}] chore: apply self-healing updates [skip ci]`);
   await git.push("origin", `HEAD:${branch}`);
 }
 
