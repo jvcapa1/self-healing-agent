@@ -1,13 +1,26 @@
 import { test, expect } from '../../self-healing/fixture';
 
-test.describe('Login Page', () => {
-  test('should display the login form', async ({ selfHealingPage: page }) => {
-    await page.goto('/');
-    await expect(page.locator(".login_logo")).toHaveText('Swag Labs');
-    await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
-    await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
-    await page.getByRole('button', { name: 'Login' }).click();
+test.describe('Home Page Validation', () => {
+  test('Validate Home Page Header and list', async ({ selfHealingPage: page }) => {
+    await page.goto('/inventory.html');
     await expect(page.locator(".title")).toHaveText('Products');
+    await expect(page.locator('.inventory_list')).toBeVisible();
   });
-
+  test("Validate 6 products are displayed on the home page", async ({ selfHealingPage: page }) => {
+    await page.goto('/inventory.html');
+    const products = await page.locator('.inventory_item');
+    console.log("Products count: ", await products.count());
+    const productCount = await products.count();
+    expect(productCount).toBe(6);
+  })
+  test("Click All Add to Cart buttons and validate cart count", async ({ selfHealingPage: page }) => {
+    await page.goto('/inventory.html');
+    const addToCartButtons = await page.locator('.btn_inventory');
+    const cartCountLocator = await page.locator('.shopping_cart_badge');
+    for (let i = 0; i < await addToCartButtons.count(); i++) {
+      await addToCartButtons.nth(i).click();
+      const expectedCount = (i + 1).toString();
+      await expect(cartCountLocator).toHaveText(expectedCount);
+    }
+  });
 });

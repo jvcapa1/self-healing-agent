@@ -9,4 +9,5 @@ node_modules/
 .env
 /sel-healing-report/
 tests/self-healing/
+.auth
 
