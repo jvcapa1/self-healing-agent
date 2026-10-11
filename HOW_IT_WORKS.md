@@ -146,14 +146,17 @@ sel-healing-report/             ← Generated at runtime (git-ignored)
 |---|---|---|
 | `GEMINI_API_KEY` | — | API key for Gemini (when `AI_PROVIDER=gemini`) |
 | `OPENAI_API_KEY` | — | API key for OpenAI (when `AI_PROVIDER=openai`) |
-| `AI_MODEL` | `gpt-4o-mini` (`gemini-3.5-flash-lite` for Gemini) | Model name for the selected provider |
-| `AI_PROVIDER` | `github-models` | Provider: `github-models`, `openai`, or `gemini` |
+| `NVIDIA_API_KEY` | — | API key for NVIDIA NIM (when `AI_PROVIDER=nvidia`) |
+| `AI_MODEL` | `gpt-4o-mini` (`openai/gpt-oss-20b` for NVIDIA NIM; `gemini-3.5-flash-lite` for Gemini) | Model name for the selected provider |
+| `AI_PROVIDER` | `github-models` | Provider: `github-models`, `openai`, `nvidia`, or `gemini` |
 | `MAX_AI_HEALS_PER_RUN` | `5` | Safety cap on AI calls per test run |
 | `SELF_HEALING_ENABLED` | `true` | Master switch |
 | `SELF_HEALING_ENABLE_IN_CI` | `false` | Allow healing on CI (disabled by default) |
 | `FUZZY_MATCH_THRESHOLD` | `0.45` | Minimum overlap score to accept a fuzzy match (0–1) |
 | `DOM_MAX_LENGTH` | `4000` | Max characters of DOM sent to the AI |
 | `SELF_HEALING_TIMEOUT_MS` | `15000` | Timeout for the healing attempt |
+
+To verify that your NVIDIA key and model are working, set `AI_PROVIDER=nvidia` and `NVIDIA_API_KEY` in `.env`, then run `npm run test:nvidia`. The model defaults to `openai/gpt-oss-20b`; set `AI_MODEL` if you want to use another model available to your NIM key.
 
 ---
 

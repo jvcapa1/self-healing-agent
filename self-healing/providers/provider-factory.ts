@@ -7,6 +7,7 @@ export function createAIProvider(): AIProvider {
   switch (selfHealingConfig.aiProvider) {
     case 'openai':
     case 'github-models':
+    case 'nvidia':
       return new OpenAIProvider(selfHealingConfig);
     case 'gemini':
       return new GeminiProvider(selfHealingConfig);

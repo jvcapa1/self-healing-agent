@@ -22,6 +22,7 @@ export class AIHealerStrategy implements HealingStrategy {
   constructor(private readonly provider: AIProvider | null) {}
 
   async heal(page: Page, selector: string, context: HealingContext): Promise<HealingResult | null> {
+   console.log(`[ai-healer] Attempting to heal selector: ${selector} on page: ${context.pageUrl}`);
     if (!selfHealingConfig.enabled) {
       return null;
     }

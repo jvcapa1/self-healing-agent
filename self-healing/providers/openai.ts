@@ -9,12 +9,17 @@ export class OpenAIProvider implements AIProvider {
 
   constructor(config: SelfHealingConfig) {
     const isGitHubModels = config.aiProvider === 'github-models' || (!config.openAIToken && !!config.githubToken);
+    const isNvidia = config.aiProvider === 'nvidia';
 
     this.client = new OpenAI({
-      apiKey: config.openAIToken || config.githubToken,
+      apiKey: isNvidia ? config.nvidiaToken : config.openAIToken || config.githubToken,
       ...(isGitHubModels ? { baseURL: 'https://models.inference.ai.azure.com' } : {}),
+      ...(isNvidia ? { baseURL: 'https://integrate.api.nvidia.com/v1' } : {}),
     });
     this.defaultModel = config.aiModel;
+    if (isNvidia) {
+      this.name = 'nvidia-nim';
+    }
   }
 
   async sendPrompt(systemPrompt: string, userPrompt: string, options?: AIOptions): Promise<string> {

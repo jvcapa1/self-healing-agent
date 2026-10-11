@@ -160,6 +160,7 @@ export class FuzzyMatchStrategy implements HealingStrategy {
   name = 'fuzzy-match';
 
   async heal(page: Page, selector: string, _context: HealingContext): Promise<HealingResult | null> {
+   console.log(`[fuzzy-match] Attempting to heal selector: ${selector}`);
     // Extract content-specific tokens: prefer the name/text inside structured selectors
     let selectorTokens = tokenize(selector);
 

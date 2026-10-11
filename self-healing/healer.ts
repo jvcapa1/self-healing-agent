@@ -15,15 +15,19 @@ export class Healer {
   constructor() {
     const hasProviderToken = selfHealingConfig.aiProvider === 'openai'
       ? selfHealingConfig.openAIToken
-      : selfHealingConfig.aiProvider === 'gemini'
-        ? selfHealingConfig.geminiToken
-        : selfHealingConfig.githubToken;
+      : selfHealingConfig.aiProvider === 'nvidia'
+        ? selfHealingConfig.nvidiaToken
+        : selfHealingConfig.aiProvider === 'gemini'
+          ? selfHealingConfig.geminiToken
+          : selfHealingConfig.githubToken;
     if (!hasProviderToken) {
       const keyName = selfHealingConfig.aiProvider === 'gemini'
         ? 'GEMINI_API_KEY'
         : selfHealingConfig.aiProvider === 'openai'
           ? 'OPENAI_API_KEY'
-          : 'GITHUB_TOKEN';
+          : selfHealingConfig.aiProvider === 'nvidia'
+            ? 'NVIDIA_API_KEY'
+            : 'GITHUB_TOKEN';
       console.warn(`[self-healing] ${selfHealingConfig.aiProvider} is disabled because ${keyName} is not set.`);
     }
     const provider = hasProviderToken ? createAIProvider() : null;

@@ -30,21 +30,30 @@ npm install
 
 ### Step 3: Add your environment variables
 
-Create a `.env` file from the project pattern:
+The current project `.env` settings are shown below. API key values are redacted; keep the real values in your local `.env` file and do not commit or share them.
 
 ```env
-AI_PROVIDER=gemini
-AI_MODEL=gemini-3.5-flash-lite
-GITHUB_TOKEN=your_token_here
-MAX_AI_HEALS_PER_RUN=5
+MAX_AI_HEALS_PER_RUN=1
 SELF_HEALING_ENABLED=true
 SELF_HEALING_ENABLE_IN_CI=false
 SELF_HEALING_TIMEOUT_MS=15000
 FUZZY_MATCH_THRESHOLD=0.45
 DOM_MAX_LENGTH=4000
+# AI_PROVIDER=gemini
+# AI_MODEL=gemini-3.5-flash-lite
+# GEMINI_API_KEY=<redacted>
+AI_PROVIDER=nvidia
+# AI_MODEL=openai/gpt-oss-20b
+NVIDIA_API_KEY=<redacted>
 ```
 
-If you use OpenAI or Gemini instead, replace the token and provider accordingly.
+The NVIDIA model line is commented in this `.env`, so the configured default `openai/gpt-oss-20b` is used. To choose a different NVIDIA NIM model, uncomment `AI_MODEL` and set the model ID. The NIM provider uses NVIDIA's OpenAI-compatible hosted endpoint. For OpenAI or Gemini, change the provider and corresponding API key.
+
+Verify the NVIDIA key and model with the API smoke test:
+
+```bash
+npm run test:nvidia
+```
 
 ### Step 4: Run the sample
 
@@ -108,18 +117,22 @@ npm install @playwright/test playwright dotenv @google/genai openai
 
 ### Step 3: Add the config file values
 
-Add these values to your `.env`:
+Use these `.env` values for this NVIDIA NIM setup. Replace `<redacted>` with your local API key; the real key is not included in this guide.
 
 ```env
-AI_PROVIDER=gemini
-AI_MODEL=gemini-3.5-flash-lite
 MAX_AI_HEALS_PER_RUN=1
 SELF_HEALING_ENABLED=true
 SELF_HEALING_ENABLE_IN_CI=false
 SELF_HEALING_TIMEOUT_MS=15000
 FUZZY_MATCH_THRESHOLD=0.45
 DOM_MAX_LENGTH=4000
-# GEMINI_API_KEY=your_gemini_api_key_here
+# AI_PROVIDER=gemini
+# AI_MODEL=gemini-3.5-flash-lite
+# GEMINI_API_KEY=<redacted>
+# AI_PROVIDER=nvidia
+# AI_MODEL=openai/gpt-oss-20b
+# NVIDIA_API_KEY=<redacted>
+
 ```
 
 ### Step 4: Update the reporter in Playwright config

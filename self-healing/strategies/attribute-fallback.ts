@@ -117,6 +117,7 @@ export class AttributeFallbackStrategy implements HealingStrategy {
   name = 'attribute-fallback';
 
   async heal(page: Page, selector: string, _context: HealingContext): Promise<HealingResult | null> {
+   console.log(`[attribute-fallback] Attempting to heal selector: ${selector}`);
     const hints = extractHints(selector);
 
     // Try full hints first (exact matches)
