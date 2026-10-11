@@ -2,6 +2,16 @@ import { expect as baseExpect, test as base, type Locator, type Page } from '@pl
 
 import { Healer } from './healer';
 import type { SelectorType } from './types';
+import { simpleGit } from "simple-git";
+
+
+export async function pushToGitHub() {
+  const git = simpleGit("/path/to/your/repo");
+
+  await git.add(".");
+  await git.commit("Update from TypeScript");
+  await git.push("origin", "main");
+}
 
 const PAGE_QUERY_METHODS = new Set([
   'locator',
@@ -120,6 +130,7 @@ function describePageQuery(method: string, args: unknown[]): string {
   }
 }
 
+
 function createHealingLocator(
   locator: Locator,
   selectorDescriptor: string,
@@ -212,6 +223,7 @@ export const test = base.extend<{ selfHealingPage: Page }>({
   selfHealingPage: async ({ page }, use) => {
     const healer = new Healer();
     await use(createSelfHealingPage(page, healer));
+    await pushToGitHub(); // Push changes to GitHub after the test
   },
 });
 
@@ -267,3 +279,6 @@ export const expect = new Proxy(baseExpect, {
     return wrapAssertionsWithHealing(assertions, descriptor, healer, page);
   },
 }) as typeof baseExpect;
+
+
+
