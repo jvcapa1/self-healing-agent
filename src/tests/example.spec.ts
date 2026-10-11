@@ -1,18 +1,13 @@
 import { test, expect } from '../../self-healing/fixture';
 
-test('has title', async ({ selfHealingPage: page }) => {
-  await page.goto('https://playwright.dev/');
+test.describe('Login Page', () => {
+  test('should display the login form', async ({ selfHealingPage: page }) => {
+    await page.goto('/');
+    await expect(page.locator(".login_logo")).toHaveText('Swag Labs');
+    await page.getByRole('textbox', { name: 'Username' }).fill('standard_user');
+    await page.getByRole('textbox', { name: 'Password' }).fill('secret_sauce');
+    await page.getByRole('button', { name: 'Login' }).click();
+    await expect(page.locator(".title")).toHaveText('Products');
+  });
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
-test('get started link', async ({ selfHealingPage: page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get_started_3124' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation_test' })).toBeVisible();
 });

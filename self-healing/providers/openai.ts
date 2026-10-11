@@ -38,7 +38,7 @@ export class OpenAIProvider implements AIProvider {
       params.max_completion_tokens = options?.maxTokens ?? 2000;
     } else {
       params.max_tokens = options?.maxTokens ?? 200;
-      params.temperature = options?.temperature ?? 0;
+      params.temperature = options?.temperature ?? 100;
     }
 
     const response = await this.client.chat.completions.create(params);
