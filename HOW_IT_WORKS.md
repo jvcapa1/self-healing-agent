@@ -74,7 +74,7 @@ The last resort. When layers 1 and 2 find no match (e.g. the selector name has z
 
 ## Cache & Persistence
 
-Every healed selector is saved to `tests/self-healing/.self-healing-cache.json`. On subsequent runs, the cache is checked first — so a healed selector is reused instantly without re-running any strategy.
+Every healed selector is saved to `sel-healing-report/.self-healing-cache.json`. On subsequent runs, the cache is checked first — so a healed selector is reused instantly without re-running any strategy.
 
 The cache entry is invalidated automatically if the healed selector no longer finds exactly 1 element on the page (element was removed or re-named again).
 
@@ -92,7 +92,7 @@ After every test run, `[self-healing] Summary` is printed to the console:
 [self-healing] #nonexistent-get-started-button     -> text=get started  (attribute-fallback)
 ```
 
-A detailed JSON report is also written to `tests/self-healing/.self-healing-report.json` with timestamps, confidence scores, suggested code fixes, and any failures.
+A detailed JSON report is also written to `sel-healing-report/.self-healing-report.json` with timestamps, confidence scores, suggested code fixes, and any failures.
 
 ---
 
@@ -128,12 +128,12 @@ self-healing/
     ├── gemini.ts               ← Gemini provider
     └── provider-factory.ts     ← Returns the configured provider instance
 
-tests/
+tests-sample/
 ├── example.spec.ts             ← Tests with intentionally broken selectors
 ├── demo-healing.spec.ts        ← Demos attribute-fallback healing
 └── demo-ai-healing.spec.ts     ← Demos AI healer (fabricated data-testid)
 
-tests/self-healing/             ← Generated at runtime (git-ignored)
+sel-healing-report/             ← Generated at runtime (git-ignored)
 ├── .self-healing-cache.json
 └── .self-healing-report.json
 ```
@@ -144,7 +144,6 @@ tests/self-healing/             ← Generated at runtime (git-ignored)
 
 | Variable | Default | Description |
 |---|---|---|
-| `GITHUB_TOKEN` | — | **Required.** Personal access token for GitHub Models API |
 | `GEMINI_API_KEY` | — | API key for Gemini (when `AI_PROVIDER=gemini`) |
 | `OPENAI_API_KEY` | — | API key for OpenAI (when `AI_PROVIDER=openai`) |
 | `AI_MODEL` | `gpt-4o-mini` (`gemini-3.5-flash-lite` for Gemini) | Model name for the selected provider |
@@ -171,5 +170,5 @@ npx playwright test tests/demo-ai-healing.spec.ts --reporter=list
 npm run test:headed
 
 # Clear the cache to force fresh healing on next run
-Remove-Item tests/self-healing/.self-healing-cache.json
+Remove-Item sel-healing-report/.self-healing-cache.json
 ```

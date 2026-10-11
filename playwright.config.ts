@@ -14,7 +14,7 @@ require('dotenv').config();
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './src/tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -38,7 +38,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     // Let failed locator actions trigger healing well before the test timeout.
     actionTimeout: 5000,
-    headless: !!process.env.CI,
+    headless: true,
     browserName: 'chromium',
   },
 

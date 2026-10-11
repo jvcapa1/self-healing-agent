@@ -13,6 +13,6 @@
   "scripts": {
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
-    "test:heal-report": "node -e \"const fs=require('fs');const p='.self-healing-report.json';if(fs.existsSync(p)){console.log(fs.readFileSync(p,'utf8'));}else{console.log('No healing report found.');}\""
+    "test:heal-report": "node -e \"const fs=require('fs');const p='sel-healing-report/.self-healing-report.json';if(fs.existsSync(p)){console.log(fs.readFileSync(p,'utf8'));}else{console.log('No healing report found.');}\""
   }
 }

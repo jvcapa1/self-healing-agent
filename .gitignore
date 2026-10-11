@@ -7,5 +7,6 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 .env
+/sel-healing-report/
 tests/self-healing/
 
