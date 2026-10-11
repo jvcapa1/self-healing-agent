@@ -2,16 +2,9 @@ import { expect as baseExpect, test as base, type Locator, type Page } from '@pl
 
 import { Healer } from './healer';
 import type { SelectorType } from './types';
-import { simpleGit } from "simple-git";
 
 
-export async function pushToGitHub() {
-  const git = simpleGit("/path/to/your/repo");
 
-  await git.add(".");
-  await git.commit("Update from TypeScript");
-  await git.push("origin", "main");
-}
 
 const PAGE_QUERY_METHODS = new Set([
   'locator',
@@ -219,12 +212,12 @@ function createSelfHealingPage(page: Page, healer: Healer): Page {
   return page;
 }
 
-export const test = base.extend<{ selfHealingPage: Page }>({
+export const test = base.extend<{ selfHealingPage: Page}>({
   selfHealingPage: async ({ page }, use) => {
     const healer = new Healer();
     await use(createSelfHealingPage(page, healer));
-    await pushToGitHub(); // Push changes to GitHub after the test
   },
+  
 });
 
 function wrapAssertionsWithHealing(assertions: any, descriptor: string, healer: Healer, page: Page): any {

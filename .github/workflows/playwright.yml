@@ -4,6 +4,10 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+permissions:
+  contents: write   # lets the built-in token push
+
 jobs:
   test:
     timeout-minutes: 60
@@ -29,6 +33,13 @@ jobs:
         SELF_HEALING_TIMEOUT_MS: 20000
         FUZZY_MATCH_THRESHOLD: 0.45
         DOM_MAX_LENGTH: 4000
+
+    - name: Push healed changes
+      if: ${{ !cancelled() && github.event_name == 'push' }}
+      run: npx tsx scripts/push.ts
+      env:
+        BRANCH_NAME: ${{ github.ref_name }}
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

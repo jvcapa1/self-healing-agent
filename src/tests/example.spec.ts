@@ -3,7 +3,7 @@ import { test, expect } from '../../self-healing/fixture';
 test.describe('Home Page Validation', () => {
   test('Validate Home Page Header and list', async ({ selfHealingPage: page }) => {
     await page.goto('/inventory.html');
-    await expect(page.locator(".title")).toHaveText('Products');
+    await expect(page.locator(".itle")).toHaveText('Products');
     await expect(page.locator('.inventory_list')).toBeVisible();
   });
   test("Validate 6 products are displayed on the home page", async ({ selfHealingPage: page }) => {
