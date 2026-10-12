@@ -1,4 +1,4 @@
-import { test, expect } from '../../self-healing/fixture';
+import { test, expect } from '../fixtures';
 
 test.describe('Home Page Validation', () => {
   test('Validate Home Page Header and list', async ({ selfHealingPage: page }) => {

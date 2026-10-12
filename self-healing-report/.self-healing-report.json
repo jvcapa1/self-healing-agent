@@ -1,0 +1,18 @@
+{
+  "runTimestamp": 1791795208733,
+  "totalAttempts": 1,
+  "healed": 1,
+  "failed": 0,
+  "fromCache": 1,
+  "details": [
+    {
+      "originalSelector": ".itle",
+      "healedSelector": ".title",
+      "strategy": "cache",
+      "confidence": 0.92,
+      "timestamp": 1791795216184
+    }
+  ],
+  "failures": [],
+  "suggestedCodeFixes": []
+}

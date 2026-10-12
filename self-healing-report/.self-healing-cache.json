@@ -1,0 +1,12 @@
+{
+  "https://www.saucedemo.com/inventory.html::.itle": {
+    "originalSelector": ".itle",
+    "healedSelector": ".title",
+    "strategy": "ai-healer",
+    "confidence": 0.92,
+    "healCount": 1,
+    "lastHealed": 1791795106748,
+    "lastUsed": 1791795106748,
+    "pageUrl": "https://www.saucedemo.com/inventory.html"
+  }
+}
