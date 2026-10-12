@@ -1,5 +1,5 @@
 {
-  "runTimestamp": 1791795208733,
+  "runTimestamp": 1791798062193,
   "totalAttempts": 1,
   "healed": 1,
   "failed": 0,
@@ -10,7 +10,7 @@
       "healedSelector": ".title",
       "strategy": "cache",
       "confidence": 0.92,
-      "timestamp": 1791795216184
+      "timestamp": 1791798069318
     }
   ],
   "failures": [],
