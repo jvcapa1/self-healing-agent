@@ -9,12 +9,16 @@ test.describe('Home Page Validation', () => {
   test("Validate 6 products are displayed on the home page", async ({ selfHealingPage: page }) => {
     await page.goto('/inventory.html');
     const products = await page.locator('.inventory_item');
+    await expect(page.locator(".title")).toHaveText('Proaaasducts');
+
     console.log("Products count: ", await products.count());
     const productCount = await products.count();
     expect(productCount).toBe(6);
   })
   test("Click All Add to Cart buttons and validate cart count", async ({ selfHealingPage: page }) => {
     await page.goto('/inventory.html');
+    await expect(page.locator(".title")).toHaveText('Products');
+
     const addToCartButtons = await page.locator('.btn_inventory');
     const cartCountLocator = await page.locator('.shopping_cart_badge');
     for (let i = 0; i < await addToCartButtons.count(); i++) {
