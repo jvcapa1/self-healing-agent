@@ -15,6 +15,7 @@
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
     "test:nvidia": "node scripts/test-nvidia.js",
+    "test:gemini": "node --experimental-strip-types scripts/gemini.ts",
     "test:heal-report": "node -e \"const fs=require('fs');const p='sel-healing-report/.self-healing-report.json';if(fs.existsSync(p)){console.log(fs.readFileSync(p,'utf8'));}else{console.log('No healing report found.');}\""
   }
 }
