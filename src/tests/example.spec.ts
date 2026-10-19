@@ -19,9 +19,9 @@ test.describe('Home Page Validation', () => {
     await page.goto('/inventory.html');
     await expect(page.locator(".title")).toHaveText('Products');
 
-    const addToCartButtons = await page.locator('.btn_inventory');
+    const addToCartButtons = await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
     await expect(addToCartButtons).toBeVisible();
-    const cartCountLocator = await page.locator('.shopping_cart_badge');
+    const cartCountLocator = await page.locator('[data-test="shopping-cart-link"]');
     await expect(cartCountLocator).toBeVisible();
     for (let i = 0; i < await addToCartButtons.count(); i++) {
       await addToCartButtons.nth(i).click();

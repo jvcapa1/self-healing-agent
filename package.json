@@ -2,6 +2,8 @@
   "name": "self-healing-agent",
   "dependencies": {
     "@google/genai": "^2.28.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "@playwright/mcp": "^0.0.83",
     "playwright": "^1.64.0",
     "simple-git": "^4.0.2"
   },
@@ -16,6 +18,7 @@
     "test:headed": "npx playwright test --headed",
     "test:nvidia": "node scripts/test-nvidia.js",
     "test:gemini": "node --experimental-strip-types scripts/gemini.ts",
+    "explore": "node --experimental-strip-types scripts/gemini-exploratory.mts",
     "test:heal-report": "node -e \"const fs=require('fs');const p='sel-healing-report/.self-healing-report.json';if(fs.existsSync(p)){console.log(fs.readFileSync(p,'utf8'));}else{console.log('No healing report found.');}\""
   }
 }

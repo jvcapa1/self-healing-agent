@@ -76,6 +76,16 @@ AI repair is optional. Attribute fallback and fuzzy matching can run without an 
 
 `AI_MODEL` overrides the selected provider's default model. The test-execution agent's optional post-run AI analysis specifically uses `GEMINI_API_KEY` and `GEMINI_MODEL`; configuring another provider for locator repair does not configure that analysis.
 
+### Explore a website with Gemini and Playwright MCP
+
+The exploratory script starts the local Playwright MCP server and gives its browser tools to Gemini. Set `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) in `.env`, then run:
+
+```powershell
+npm run explore -- https://example.com "Explore the main navigation and search flow"
+```
+
+The optional task defaults to a summary of the main page. The script prints Gemini's findings, allows credentials explicitly included in the task to be used for sign-in, and instructs it to avoid actions that change site data. Credentials are excluded from the report.
+
 ## Run tests and reports
 
 ```powershell

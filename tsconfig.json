@@ -7,5 +7,5 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["self-healing/**/*.ts", "tests-sample/**/*.ts", "src/**/*.ts", "scripts/**/*.ts", "playwright.config.ts"]
+  "include": ["self-healing/**/*.ts", "tests-sample/**/*.ts", "src/**/*.ts", "scripts/**/*.ts", "scripts/**/*.mts", "playwright.config.ts"]
 }

@@ -10,4 +10,5 @@ node_modules/
 /sel-healing-report/
 tests/self-healing/
 .auth
+.playwright-mcp
 
