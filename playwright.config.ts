@@ -43,6 +43,7 @@ export default defineConfig({
     actionTimeout: 5000,
     headless: true,
     browserName: 'chromium',
+    video: 'on',
     storageState: 'playwright/.auth/saucedemo.json',
   },
 

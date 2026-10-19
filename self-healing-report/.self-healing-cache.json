@@ -1,22 +1,22 @@
 {
-  "https://www.saucedemo.com/inventory.html::.itle": {
-    "originalSelector": ".itle",
-    "healedSelector": ".title",
-    "strategy": "ai-healer",
-    "confidence": 0.92,
+  "https://www.saucedemo.com/inventory.html::.btn_inventory": {
+    "originalSelector": ".btn_inventory",
+    "healedSelector": "[data-test=\"add-to-cart-sauce-labs-backpack\"]",
+    "strategy": "fuzzy-match",
+    "confidence": 0.7142857142857143,
     "healCount": 1,
-    "lastHealed": 1791800680951,
-    "lastUsed": 1791800680951,
+    "lastHealed": 1792308554589,
+    "lastUsed": 1792308554589,
     "pageUrl": "https://www.saucedemo.com/inventory.html"
   },
-  "https://www.saucedemo.com/inventory.html::.title": {
-    "originalSelector": ".title",
-    "healedSelector": "[data-test=\"title\"]",
+  "https://www.saucedemo.com/inventory.html::.shopping_cart_badge": {
+    "originalSelector": ".shopping_cart_badge",
+    "healedSelector": "[data-test=\"shopping-cart-link\"]",
     "strategy": "fuzzy-match",
-    "confidence": 0.95,
+    "confidence": 0.8333333333333334,
     "healCount": 1,
-    "lastHealed": 1791800913138,
-    "lastUsed": 1791800913138,
+    "lastHealed": 1792308559753,
+    "lastUsed": 1792308559753,
     "pageUrl": "https://www.saucedemo.com/inventory.html"
   }
 }
