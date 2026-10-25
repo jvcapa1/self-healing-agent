@@ -31,7 +31,7 @@ export class ExploreAgent {
 
   constructor(environment: NodeJS.ProcessEnv = process.env, args: string[] = process.argv.slice(2)) {
     this.defaultTask = "Explore the main page and summarize its purpose, navigation, and notable interactions.";
-    this.model = environment.GEMINI_MODEL ?? "gemini-3.1-flash-lite";
+    this.model = environment.GEMINI_MODEL ?? "gemini-3.5-flash-lite";
     this.maxRetries = 10;
     this.maxRetryDelayMs = 60_000;
     this.serviceUnavailableDelayMs = 60_000;
