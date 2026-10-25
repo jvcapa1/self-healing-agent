@@ -86,6 +86,8 @@ npm run explore -- https://example.com "Explore the main navigation and search f
 
 The optional task defaults to a summary of the main page. The script prints Gemini's findings, allows credentials explicitly included in the task to be used for sign-in, and instructs it to avoid actions that change site data. Credentials are excluded from the report.
 
+After each completed exploration, the script also generates an A4 PDF report at `playwright-report/explore-agent-run-report.pdf`, using the saved findings and a timestamp.
+
 ## Run tests and reports
 
 ```powershell

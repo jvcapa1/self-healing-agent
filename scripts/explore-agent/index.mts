@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { GoogleGenAI, type FunctionDeclaration } from "@google/genai";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { chromium } from "playwright";
 import { CACHE_DIRECTORY, getExplorationCachePaths } from "./helper/cache-helper.ts";
 import { exploreAgent } from "./explore-agent.ts";
 import { SafePlaywrightClient } from "./safe-playwright-client-mcp.ts";
@@ -12,6 +13,61 @@ import { SafePlaywrightClient } from "./safe-playwright-client-mcp.ts";
 const { apiKey, targetUrl, task } = exploreAgent;
 const model = exploreAgent.model;
 const { stateFilePath, profilePath } = getExplorationCachePaths(targetUrl, task, model);
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[character] ?? character);
+}
+
+async function generateReportPdf(report: string): Promise<void> {
+  const reportDirectory = path.resolve(process.cwd(), "playwright-report");
+  const reportPath = path.join(reportDirectory, "explore-agent-run-report.pdf");
+  const generatedAt = new Date().toISOString();
+  const html = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      @page { size: A4; margin: 18mm; }
+      * { box-sizing: border-box; }
+      body { color: #202833; margin: 0; font-family: Arial, Helvetica, sans-serif; }
+      h1 { color: #17365d; font-size: 22pt; margin: 0 0 12pt; }
+      .metadata { font-size: 9pt; line-height: 1.65; margin-bottom: 14pt; }
+      .metadata strong { color: #242b33; }
+      .passed { color: #24804a; font-weight: 700; }
+      h2 { color: #202833; font-size: 15pt; margin: 0 0 8pt; }
+      pre { color: #202833; font: 8.5pt/1.42 Consolas, "Courier New", monospace; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
+    </style>
+  </head>
+  <body>
+    <h1>Explore Agent Report</h1>
+    <div class="metadata">
+      <div><strong>Target:</strong> ${escapeHtml(targetUrl.hostname)}</div>
+      <div><strong>Run status:</strong> <span class="passed">passed</span></div>
+      <div><strong>Generated:</strong> ${generatedAt}</div>
+    </div>
+    <h2>Exploration findings</h2>
+    <pre>${escapeHtml(report)}</pre>
+  </body>
+</html>`;
+
+  fs.mkdirSync(reportDirectory, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "load" });
+    await page.pdf({ path: reportPath, format: "A4", printBackground: true });
+  } finally {
+    await browser.close();
+  }
+
+  console.log(`[explore] PDF report saved to ${path.relative(process.cwd(), reportPath)}.`);
+}
 
 
 
@@ -120,6 +176,10 @@ async function main() {
     }
   } finally {
     await mcpClient.close();
+  }
+
+  if (state.completed && state.report) {
+    await generateReportPdf(state.report);
   }
 }
 
