@@ -31,9 +31,9 @@ export class ExploreAgent {
 
   constructor(environment: NodeJS.ProcessEnv = process.env, args: string[] = process.argv.slice(2)) {
     this.defaultTask = "Explore the main page and summarize its purpose, navigation, and notable interactions.";
-    this.model = environment.GEMINI_MODEL ?? "gemini-3.5-flash-lite";
+    this.model = environment.GEMINI_MODEL ?? "gemini-3.1-flash-lite";
     this.maxRetries = 10;
-    this.maxRetryDelayMs = 5 * 60_000;
+    this.maxRetryDelayMs = 60_000;
     this.serviceUnavailableDelayMs = 60_000;
     this.maxRemoteCalls = 100;
     this.playwrightMcpCli = path.resolve(process.cwd(), "node_modules", "@playwright", "mcp", "cli.js");
@@ -92,14 +92,14 @@ export class ExploreAgent {
         const delayMs = status === 503
           ? retryDelayMs ?? this.serviceUnavailableDelayMs
           : status === 429
-            ? retryDelayMs
+            ? Math.min(retryDelayMs ?? 1_000 * 2 ** retry, this.maxRetryDelayMs)
             : undefined;
 
         if (delayMs === undefined || retry >= this.maxRetries) {
           throw error;
         }
 
-        if (delayMs > this.maxRetryDelayMs) {
+        if (status !== 429 && delayMs > this.maxRetryDelayMs) {
           throw new Error(
             `Gemini request ${requestNumber} asked to retry after ${Math.ceil(delayMs / 1_000)} seconds, `
             + `exceeding the ${Math.ceil(this.maxRetryDelayMs / 1_000)}-second retry limit. `
@@ -110,7 +110,10 @@ export class ExploreAgent {
 
         console.warn(
           `[explore] Gemini request ${requestNumber} returned ${status}; retrying in `
-          + `${Math.ceil(delayMs / 1_000)} seconds (attempt ${retry + 1}/${this.maxRetries}).`,
+          + `${Math.ceil(delayMs / 1_000)} seconds (attempt ${retry + 1}/${this.maxRetries})`
+          + `${status === 429 && retryDelayMs !== undefined && retryDelayMs > delayMs
+            ? `; capped from ${Math.ceil(retryDelayMs / 1_000)} seconds`
+            : ""}.`,
         );
         await new Promise((resolve) => setTimeout(resolve, delayMs + 1_000));
       }
