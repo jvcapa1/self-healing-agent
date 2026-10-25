@@ -84,7 +84,7 @@ async function main() {
   const mcpClient = new SafePlaywrightClient({ name: "gemini-playwright-explorer", version: "1.0.0" });
   const transport = new StdioClientTransport({
     command: process.execPath,
-    args: [exploreAgent.playwrightMcpCli, "--user-data-dir", profilePath],
+    args: [exploreAgent.playwrightMcpCli, "--headless", "--user-data-dir", profilePath],
   });
 
   try {

@@ -78,7 +78,7 @@ AI repair is optional. Attribute fallback and fuzzy matching can run without an 
 
 ### Explore a website with Gemini and Playwright MCP
 
-The exploratory script starts the local Playwright MCP server and gives its browser tools to Gemini. Set `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) in `.env`, then run:
+The exploratory script starts the local Playwright MCP server in headless mode and gives its browser tools to Gemini. Set `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) in `.env`, then run:
 
 ```powershell
 npm run explore -- https://example.com "Explore the main navigation and search flow"
@@ -87,6 +87,8 @@ npm run explore -- https://example.com "Explore the main navigation and search f
 The optional task defaults to a summary of the main page. The script prints Gemini's findings, allows credentials explicitly included in the task to be used for sign-in, and instructs it to avoid actions that change site data. Credentials are excluded from the report.
 
 After each completed exploration, the script also generates an A4 PDF report at `playwright-report/explore-agent-run-report.pdf`, using the saved findings and a timestamp.
+
+The GitHub Actions workflow runs this exploration in a separate `explore-test` job on pushes to `main` or `master`. It uploads the generated PDF as the `explore-agent-run-report` workflow artifact. Configure the repository's `GEMINI_API_KEY` Actions secret to enable the job.
 
 ## Run tests and reports
 

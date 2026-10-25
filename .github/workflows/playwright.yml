@@ -69,3 +69,33 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+
+  explore-test:
+    if: ${{ github.event_name == 'push' }}
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Chromium
+      run: npx playwright install --with-deps chromium
+    - name: Run explore agent
+      run: npm run explore
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    - name: Upload exploration report
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: explore-agent-run-report
+        path: playwright-report/explore-agent-run-report.pdf
+        if-no-files-found: warn
+        retention-days: 30
