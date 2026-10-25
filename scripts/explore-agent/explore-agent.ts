@@ -22,15 +22,18 @@ export class ExploreAgent {
   readonly defaultTask: string;
   readonly model: string;
   readonly maxRetries: number;
+  readonly maxRetryDelayMs: number;
   readonly serviceUnavailableDelayMs: number;
   readonly maxRemoteCalls: number;
   readonly playwrightMcpCli: string;
   readonly unsafeToolName: string;
+  private generationRequestCount = 0;
 
   constructor(environment: NodeJS.ProcessEnv = process.env, args: string[] = process.argv.slice(2)) {
     this.defaultTask = "Explore the main page and summarize its purpose, navigation, and notable interactions.";
     this.model = environment.GEMINI_MODEL ?? "gemini-3.5-flash-lite";
     this.maxRetries = 10;
+    this.maxRetryDelayMs = 5 * 60_000;
     this.serviceUnavailableDelayMs = 60_000;
     this.maxRemoteCalls = 100;
     this.playwrightMcpCli = path.resolve(process.cwd(), "node_modules", "@playwright", "mcp", "cli.js");
@@ -79,6 +82,7 @@ export class ExploreAgent {
     ai: GoogleGenAI,
     request: Parameters<typeof ai.models.generateContent>[0],
   ) {
+    const requestNumber = ++this.generationRequestCount;
     for (let retry = 0; ; retry += 1) {
       try {
         return await ai.models.generateContent(request);
@@ -95,7 +99,19 @@ export class ExploreAgent {
           throw error;
         }
 
-        console.warn(`[explore] Gemini returned ${status}; retrying in ${Math.ceil(delayMs / 1_000)} seconds (${retry + 1}/${this.maxRetries}).`);
+        if (delayMs > this.maxRetryDelayMs) {
+          throw new Error(
+            `Gemini request ${requestNumber} asked to retry after ${Math.ceil(delayMs / 1_000)} seconds, `
+            + `exceeding the ${Math.ceil(this.maxRetryDelayMs / 1_000)}-second retry limit. `
+            + "Stopping instead of waiting beyond the CI job timeout.",
+            { cause: error },
+          );
+        }
+
+        console.warn(
+          `[explore] Gemini request ${requestNumber} returned ${status}; retrying in `
+          + `${Math.ceil(delayMs / 1_000)} seconds (attempt ${retry + 1}/${this.maxRetries}).`,
+        );
         await new Promise((resolve) => setTimeout(resolve, delayMs + 1_000));
       }
     }
