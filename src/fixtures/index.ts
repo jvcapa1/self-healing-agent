@@ -1,5 +1,6 @@
-import { mergeTests, test as playwrightTest } from "@playwright/test";
-import { expect, test as selfHealingTest } from "../../self-healing/fixture";
+import { mergeTests } from "@playwright/test";
+import { expect ,test as healFixtures} from "../../self-healing/fixture";
+import { test as pageFixtures } from "./page-fixture";
 
-export const test = mergeTests(playwrightTest, selfHealingTest);
+export const test = mergeTests(pageFixtures,healFixtures);
 export { expect };

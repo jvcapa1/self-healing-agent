@@ -1,32 +1,28 @@
-import { test, expect } from '../fixtures';
+import { test, expect } from '../fixtures/index';
 
 test.describe('Home Page Validation', () => {
-  test('Validate Home Page Header and list', async ({ selfHealingPage: page }) => {
+  test('Validate Home Page Header and list', async ({ selfHealingPage: page, homePage }) => {
     await page.goto('/inventory.html');
-    await expect(page.locator(".title")).toHaveText('Products');
-    await expect(page.locator('.inventory_list')).toBeVisible();
+    await expect(homePage.productsHeader).toHaveText('Products');
+    await expect(homePage.inventoryList).toBeVisible();
   });
-  test("Validate 6 products are displayed on the home page", async ({ selfHealingPage: page }) => {
+  test("Validate 6 products are displayed on the home page", async ({ selfHealingPage: page, homePage }) => {
     await page.goto('/inventory.html');
-    const products = await page.locator('.inventory_item');
-    await expect(page.locator(".title")).toHaveText('Products');
+    await expect(homePage.productsHeader).toHaveText('Products');
 
-    console.log("Products count: ", await products.count());
-    const productCount = await products.count();
+    const productCount = await homePage.products.count();
     expect(productCount).toBe(6);
   })
-  test("Click All Add to Cart buttons and validate cart count", async ({ selfHealingPage: page }) => {
+  test("Click All Add to Cart buttons and validate cart count", async ({ selfHealingPage: page, homePage }) => {
     await page.goto('/inventory.html');
-    await expect(page.locator(".title")).toHaveText('Products');
+    await expect(homePage.productsHeader).toHaveText('Products');
 
-    const addToCartButtons = await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
-    await expect(addToCartButtons).toBeVisible();
-    const cartCountLocator = await page.locator('[data-test="shopping-cart-link"]');
-    await expect(cartCountLocator).toBeVisible();
-    for (let i = 0; i < await addToCartButtons.count(); i++) {
-      await addToCartButtons.nth(i).click();
+    await expect(homePage.addToCartBackpackButton).toBeVisible();
+    await expect(homePage.shoppingCartLink).toBeVisible();
+    for (let i = 0; i < await homePage.addToCartBackpackButton.count(); i++) {
+      await homePage.addToCartBackpackButton.nth(i).click();
       const expectedCount = (i + 1).toString();
-      await expect(cartCountLocator).toHaveText(expectedCount);
+      await expect(homePage.shoppingCartLink).toHaveText(expectedCount);
     }
   });
 });

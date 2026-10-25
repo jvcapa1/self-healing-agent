@@ -42,24 +42,37 @@ export class ExploreAgent {
     }
     this.apiKey = apiKey;
 
-    const [target, ...taskParts] = args;
-    if (!target) {
-      throw new Error('Usage: npm run explore -- <url> ["what to explore"]');
-    }
+    // const [target, ...taskParts] = args;
+    // if (!target) {
+    //   throw new Error('Usage: npm run explore -- <url> ["what to explore"]');
+    // }
 
-    let targetUrl: URL;
-    try {
-      targetUrl = new URL(target);
-    } catch {
-      throw new Error(`Invalid URL: ${target}`);
-    }
+    // let targetUrl: URL;
+    // try {
+    //   targetUrl = new URL(target);
+    // } catch {
+    //   throw new Error(`Invalid URL: ${target}`);
+    // }
 
-    if (targetUrl.protocol !== "http:" && targetUrl.protocol !== "https:") {
-      throw new Error("The target URL must use http or https.");
-    }
+    // if (targetUrl.protocol !== "http:" && targetUrl.protocol !== "https:") {
+    //   throw new Error("The target URL must use http or https.");
+    // }
 
-    this.targetUrl = targetUrl;
-    this.task = taskParts.join(" ").trim() || this.defaultTask;
+    this.targetUrl  = new URL("https://www.saucedemo.com/");
+    this.task = `Explore SauceDemo like a human tester without relying exclusively on predefined test cases. Discover functional defects, unexpected states, navigation issues, and potential edge cases, then produce reproducible bug reports. 1. [x] Login exploration
+   Try valid credentials, invalid passwords, empty fields, and locked-out-user behavior.
+2. [x] Product catalog
+   Inspect product names, prices, images, sorting options, and product details.
+3. [x] Shopping cart
+   Add and remove products, revisit the cart, and verify cart badge consistency.
+4. [x] Checkout workflow
+   Explore checkout validation, missing customer information, order overview, and completion.
+5. [x] Navigation and state
+   Use Back, refresh, and direct URLs to discover unexpected states or broken navigation.
+6. [x] Negative and edge cases
+   Attempt repeated clicks, empty-cart checkout, invalid form data, and other safe edge cases.
+7. [x] Bug report generation
+   Capture reproduction steps, expected vs. actual results, severity, screenshots, and console errors.`;
   }
 
   async generateContentWithRetry(
